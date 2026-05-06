@@ -1,2 +1,2 @@
 # figumigos
-Álbum de figurinhas digitais.f
+Álbum de figurinhas digitais
