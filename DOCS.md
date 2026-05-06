@@ -45,9 +45,17 @@ docker-compose logs -f frontend
 ### Frontend
 Os testes do frontend utilizam **Vitest** e **React Testing Library**.
 
-**Rodar testes uma única vez:**
+**Rodar testes uma única vez (Frontend):**
 ```bash
 cd frontend && npm test
+```
+
+### Backend
+Os testes do backend utilizam **Vitest** e **Supertest**.
+
+**Rodar testes uma única vez:**
+```bash
+cd backend && npm test
 ```
 
 **Rodar testes em modo "watch" (desenvolvimento):**
