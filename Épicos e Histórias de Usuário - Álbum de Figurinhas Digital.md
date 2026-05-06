@@ -2,78 +2,97 @@
 
 Este documento detalha a organização do projeto em Épicos, decompostos em Histórias de Usuário e suas respectivas tarefas técnicas.
 
-## ---
+---
 
-**Épico 1: Fundação e Infraestrutura Híbrida**
+## **Épico 1: Fundação e Infraestrutura Híbrida**
 
-### **História de Usuário 1.1: Setup do Ambiente**
+### **História de Usuário 1.1: Setup do Ambiente e Dockerização**
+**Como** desenvolvedor, **quero** configurar o ambiente de desenvolvimento usando Docker **para que** o setup seja consistente entre diferentes máquinas e o deploy seja simplificado.
+* Tarefa 1: Criar Dockerfile para o Frontend (React).
+* Tarefa 2: Criar Dockerfile para o Backend (Node.js).
+* Tarefa 3: Configurar Docker Compose orquestrando os serviços e os bancos de dados (MongoDB + SQLite).
+* Tarefa 4: Configurar volumes para persistência de dados dos bancos.
 
-**Como** desenvolvedor, **quero** configurar o ambiente Node.js e a conexão com os bancos de dados **para que** eu possa iniciar o desenvolvimento das funcionalidades.
+### **História de Usuário 1.2: Conexão com Bancos de Dados Híbridos**
+**Como** desenvolvedor, **quero** implementar as camadas de acesso a dados para SQLite e MongoDB **para que** eu possa persistir as regras de negócio e os metadados de mídia de forma eficiente.
+* Tarefa 1: Configurar ORM/Driver para SQLite (ex: Better-SQLite3 ou Prisma).
+* Tarefa 2: Configurar Driver para MongoDB (Mongoose).
+* Tarefa 3: Implementar esquemas iniciais (Users, Inventory no SQLite; Stickers no MongoDB).
+* Tarefa 4: Validar integridade referencial entre stickers_id no SQLite e metadados no MongoDB.
 
-* Tarefa 1: Iniciar projeto Node.js com TypeScript.  
-* Tarefa 2: Configurar SQLite com a tabela de usuários e inventário.  
-* Tarefa 3: Configurar conexão com MongoDB para metadados de mídia.  
-* Tarefa 4: Implementar middleware de autenticação ultra-simples via header x-user-id.
+---
 
-## ---
+## **Épico 2: Gestão de Conteúdo e Editor de Páginas (Admin)**
 
-**Épico 2: Gestão de Conteúdo e Editor de Páginas (Admin)**
+### **História de Usuário 2.1: Editor de Layout de Páginas**
+**Como** administrador, **quero** posicionar slots de figurinhas livremente em um canvas **para que** eu possa criar álbuns visualmente atraentes.
+* Tarefa 1: Implementar interface administrativa com React-Konva para "drag and drop" de slots.
+* Tarefa 2: Adicionar controles de rotação e escala para cada slot individual.
+* Tarefa 3: Implementar suporte a diferentes formatos de slot (Quadrado, Círculo, Estrela).
+* Tarefa 4: Persistir coordenadas (x, y), rotação e formato no banco de dados.
 
-### **História de Usuário 2.1: Criação de Slots e Layout**
+### **História de Usuário 2.2: Gestão de Temporadas e Tags**
+**Como** administrador, **quero** criar temporadas e organizar figurinhas por tags **para que** o conteúdo seja entregue de forma organizada aos usuários.
+* Tarefa 1: Criar CRUD de Temporadas (Nome, Data Início/Fim, Status).
+* Tarefa 2: Implementar sistema de tags associadas às figurinhas.
+* Tarefa 3: Criar interface para definir pesos de raridade por tag/temporada.
 
-**Como** administrador, **quero** definir a posição e o formato dos slots em uma página **para que** eu possa montar o layout do álbum.
+---
 
-* Tarefa 1: Criar interface de upload de fotos brutas.  
-* Tarefa 2: Implementar ferramenta de posicionamento (x, y, rotação) de slots.  
-* Tarefa 3: Salvar metadados de zoom e offset da foto no MongoDB.  
-* Tarefa 4: Persistir a configuração da página no SQLite.
+## **Épico 3: Mecanismo de Colecionismo e Gacha**
 
-## ---
+### **História de Usuário 3.1: Algoritmo de Sorteio (Gacha)**
+**Como** sistema, **quero** sortear figurinhas baseadas em pesos de raridade e tags **para que** a experiência de abertura de pacotes seja gamificada e equilibrada.
+* Tarefa 1: Implementar algoritmo de sorteio ponderado no Backend.
+* Tarefa 2: Criar lógica para evitar pacotes vazios (completar com repetidas caso falte figurinhas na tag).
+* Tarefa 3: Garantir que figurinhas de raridade "Brilhante" tenham efeitos visuais distintos no sorteio.
 
-**Épico 3: Mecanismo de Colecionismo e Gacha**
+### **História de Usuário 3.2: Distribuição Automatizada de Pacotes**
+**Como** usuário, **quero** receber 3 pacotes novos toda semana automaticamente **para que** eu tenha motivos para voltar ao sistema regularmente.
+* Tarefa 1: Configurar Cron Job (Node-cron) para rodar semanalmente.
+* Tarefa 2: Implementar lógica de "estoque de pacotes" no perfil do usuário.
+* Tarefa 3: Criar endpoint para o usuário "reivindicar" e abrir os pacotes pendentes.
 
-### **História de Usuário 3.1: Abertura de Pacotes**
+---
 
-**Como** usuário, **quero** abrir pacotinhos de figurinhas **para que** eu possa aumentar minha coleção.
+## **Épico 4: Experiência de Colagem e Álbum Interativo**
 
-* Tarefa 1: Desenvolver algoritmo de sorteio baseado em pesos de raridade.  
-* Tarefa 2: Implementar lógica de filtragem por tags no SQLite.  
-* Tarefa 3: Criar script de Cron Job para distribuição semanal de pacotes.  
-* Tarefa 4: Criar endpoint para realizar a abertura do pacote e atualizar o inventário.
+### **História de Usuário 4.1: Colagem com "Snap" e Evolução**
+**Como** usuário, **quero** arrastar figurinhas para seus slots e vê-las evoluir de nível **para que** eu sinta progresso na minha coleção.
+* Tarefa 1: Implementar lógica de "snap" (ímã) magnético no frontend usando Konva.
+* Tarefa 2: Desenvolver sistema de níveis (1, 2 e 3) por slot colado.
+* Tarefa 3: Aplicar bordas visuais diferenciadas via CSS/Konva para cada nível de evolução.
+* Tarefa 4: Implementar verificação de completitude: quando o nível 3 é atingido, marcar slot como "Masterizado".
 
-## ---
+### **História de Usuário 4.2: Navegação e Feedback de Progresso**
+**Como** usuário, **quero** navegar entre as páginas do álbum e ver meu progresso geral **para que** eu saiba quanto falta para completar a coleção.
+* Tarefa 1: Criar sistema de paginação horizontal (estilo álbum físico).
+* Tarefa 2: Implementar barra de progresso por página e por temporada.
+* Tarefa 3: Adicionar feedbacks sonoros/visuais ao completar uma página inteira.
 
-**Épico 4: Experiência de Colagem e Álbum Interativo**
+---
 
-### **História de Usuário 4.1: Colagem com Snap**
+## **Épico 5: Ecossistema Social e Trocas**
 
-**Como** usuário, **quero** arrastar e colar minhas figurinhas nos slots corretos **para que** eu complete meu álbum.
+### **História de Usuário 5.1: Mercado de Trocas e Doações**
+**Como** usuário, **quero** propor trocas ou doar figurinhas repetidas para meus amigos **para que** possamos nos ajudar a completar o álbum.
+* Tarefa 1: Implementar interface de "Proposta de Troca" (Seu X por Meu Y).
+* Tarefa 2: Criar aba de "Minhas Propostas" (Pendentes, Aceitas, Recusadas).
+* Tarefa 3: Implementar funcionalidade de doação direta (enviar sem pedir nada em troca).
+* Tarefa 4: Garantir transações atômicas no SQLite para evitar duplicação ou perda de itens.
 
-* Tarefa 1: Integrar React-Konva para renderização do canvas.  
-* Tarefa 2: Implementar lógica de snap magnético no frontend.  
-* Tarefa 3: Criar lógica de evolução de bordas para os 3 níveis de colagem.  
-* Tarefa 4: Implementar trigger de verificação de bônus de pontuação no backend após colagem.
+### **História de Usuário 5.2: Ranking Global e Social**
+**Como** usuário, **quero** ver minha posição em um ranking global **para que** eu possa competir de forma saudável com meus amigos.
+* Tarefa 1: Implementar cálculo de pontuação baseado em colagens e níveis de evolução.
+* Tarefa 2: Criar tela de ranking global visível a todos.
+* Tarefa 3: Permitir que usuários visualizem o álbum público de outros competidores.
 
-## ---
+---
 
-**Épico 5: Ecossistema Social e Trocas**
+## **Épico 6: Visualização e Experiência do Usuário (UX)**
 
-### **História de Usuário 5.1: Proposta de Troca Privada**
-
-**Como** usuário, **quero** propor trocas com meus amigos **para que** eu consiga as figurinhas que me faltam.
-
-* Tarefa 1: Criar lógica de bloqueio de figurinhas (quantity\_locked) no inventário.  
-* Tarefa 2: Implementar interface de visualização do álbum de outros usuários.  
-* Tarefa 3: Desenvolver sistema de aceitar/recusar propostas com transação atômica no SQLite.  
-* Tarefa 4: Implementar ranking global baseado no total de colagens.
-
-## ---
-
-**Épico 6: Visualização e Exportação de Mídia**
-
-### **História de Usuário 6.1: Visualização Ampliada**
-
-**Como** usuário, **quero** ver a foto original da figurinha em tamanho grande **para que** eu possa apreciar os detalhes.
-
-* Tarefa 1: Criar modal de visualização que remove a máscara do molde.  
-* Tarefa 2: Implementar funcionalidade de exportação da figurinha composta (foto \+ moldura).
+### **História de Usuário 6.1: Visualização Detalhada e Galeria**
+**Como** usuário, **quero** ver a foto original da figurinha sem as máscaras do slot **para que** eu possa apreciar a memória afetiva da foto.
+* Tarefa 1: Implementar modal de visualização em tela cheia ao clicar na figurinha colada.
+* Tarefa 2: Criar "Galeria de Inventário" para ver todas as figurinhas possuídas (mesmo as não coladas).
+* Tarefa 3: Implementar busca e filtros por tags na galeria.
