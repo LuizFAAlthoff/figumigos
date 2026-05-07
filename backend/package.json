@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "nodemon --watch src --exec \"node --enable-source-maps --trace-warnings --loader ts-node/esm ./src/index.ts\"",
+    "dev": "NODE_OPTIONS='--no-warnings --loader ts-node/esm' nodemon src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "vitest run"
